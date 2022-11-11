@@ -6,18 +6,23 @@ function create_row(id, array)
     $week = $('<div></div>').attr('id', id).addClass('row');
     for (let i=0; i<7; i++)
     {
-        let text = i+1+'';//text content for the div, use for testing
         let div = $('<div></div>').hover(function(){
-            $(this).css('background-color', 'yellow')
+            $(this).css('background-color', '#ffffb2')
         }, function(){
             $(this).css('background-color', 'white')
         });
         div.html(array[i])
                         .addClass('col')
-                        .appendTo($week);
-    //let element = div.get();
-    //console.log(element);
-     }
+                        .appendTo($week)
+                        .click(function(){
+                            $('<input/>').addClass('form-control').css('background-color', '#add8e6').appendTo(this).click(function(event){
+                                event.stopPropagation();//stop progation as to not cause a click on textbox to fireup parent clickevent leading to more textboxes
+                            }).on('mouseout', function(){
+                                $(this).blur();//imput text losses focus
+                            });
+
+                        });
+    }
     return $week;
 }
 
@@ -30,7 +35,7 @@ function shift(array)//this function is used to shift the integer of the array b
 }
 
 $(document).ready(function(){
-  //$('<div>1</div>').appendTo('#calendar');
+
     $days = create_row('days', ['<strong>Sunday</strong>', 
                                 '<strong>Monday</strong>', 
                                 '<strong>Tuesday</strong>', 
@@ -60,7 +65,8 @@ $(document).ready(function(){
     $week5 = create_row('five', days);
     $week5.insertAfter($week4);
 
-    let width = $('#one > div').css('width');
+    let width = $('#one > div').css('width');//use .outerWidth() instead
 
     $('#days').nextAll().css('height', width);//close enough to a square but small differences
+    
 });
