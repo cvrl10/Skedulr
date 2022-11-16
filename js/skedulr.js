@@ -1,17 +1,25 @@
+let date = new Date();
+
 /*this function is used to create a row of 7 divs to represent a week
 */
 function create_row(id, array)
 {
     //day = ['1','2','3','4','5','6','7']
-    $week = $('<div></div>').attr('id', id).addClass('row');
+    let $week = $('<div></div>').attr('id', id).addClass('row');
+
     for (let i=0; i<7; i++)
     {
-        let div = $('<div></div>').hover(function(){
+        let div = $('<div></div>').hover( function(){
             $(this).css('background-color', '#ffffb2')
         }, function(){
-            $(this).css('background-color', 'white')
+            if ($(this).attr('id') == date.getDate())
+                $(this).css('background-color', 'grey')
+            else
+                $(this).css('background-color', 'white')
         });
+
         div.html(array[i])
+                        .attr('id', array[i])
                         .addClass('col')
                         .appendTo($week)
                         .click(function(){
@@ -36,37 +44,48 @@ function shift(array)//this function is used to shift the integer of the array b
 
 $(document).ready(function(){
 
-    $days = create_row('days', ['<strong>Sunday</strong>', 
+    let $days = create_row('days', ['<strong>Sunday</strong>', 
                                 '<strong>Monday</strong>', 
                                 '<strong>Tuesday</strong>', 
                                 '<strong>Wednesday</strong>', 
                                 '<strong>Thursday</strong>', 
                                 '<strong>Friday</strong>', 
-                                '<strong>Saturday</strong>'])
+                                '<strong>Saturday</strong>']);
     $('#calendar').prepend($days);
 
     days = shift([-6,-5,-4,-3,-2,-1,0]);
-    $week1 = create_row('one', days);
+    let $week1 = create_row('one', days);
     $week1.insertAfter($days);
 
     days = shift(days);
-    $week2 = create_row('two', days);
+    let $week2 = create_row('two', days);
     $week2.insertAfter($week1);
 
     days = shift(days);
-    $week3 = create_row('three', days);
+    let $week3 = create_row('three', days);
     $week3.insertAfter($week2);
 
     days = shift(days);
-    $week4 = create_row('four', days);
+    let $week4 = create_row('four', days);
     $week4.insertAfter($week3);
 
     days = shift(days);
-    $week5 = create_row('five', days);
+    let $week5 = create_row('five', days);
     $week5.insertAfter($week4);
 
     let width = $('#one > div').css('width');//use .outerWidth() instead
 
     $('#days').nextAll().css('height', width);//close enough to a square but small differences
+
+    /*Turned off animation of the dropped down list for now
+    $('#menu-icon').hover(function(){
+        let w = $(this).css('width');
+        let h = $(this).css('height');
+        $(this).animate({height: h+'50px', wight: w+'50px'}, 500, 'swing')
+    }, ()=>{});
+    */
+
+    //sets the background of the current day
+    let obj = $('#'+date.getDate()).css('background-color', 'grey');
     
 });
