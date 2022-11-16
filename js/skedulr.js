@@ -1,4 +1,4 @@
-let date = new Date();
+let today = new Date();
 
 /*this function is used to create a row of 7 divs to represent a week
 */
@@ -12,7 +12,7 @@ function create_row(id, array)
         let div = $('<div></div>').hover( function(){
             $(this).css('background-color', '#ffffb2')
         }, function(){
-            if ($(this).attr('id') == date.getDate())
+            if ($(this).attr('id') == today.getDate())
                 $(this).css('background-color', 'grey')
             else
                 $(this).css('background-color', 'white')
@@ -85,7 +85,7 @@ $(document).ready(function(){
     }, ()=>{});
     */
 
-    //sets the background of the current day
-    let obj = $('#'+date.getDate()).css('background-color', 'grey');
+    let id = '#'.concat(today.getDate());
+    $(id).css('background-color', 'grey');
     
 });
